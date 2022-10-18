@@ -1,8 +1,8 @@
 <template>
   <section class="mt-4">
     <TodoListItem @delete-event="$emit('delete-event',$event)" v-for="todoItem in todoList" :key="todoItem.id" :todo="todoItem" />
-    <small>{{ todoLength }} adet Item vardır</small>
-    <MySummary />
+    <small>Toplam: {{ todoLength }} adet task vardır</small>
+    <MySummary :todoList="todoList"/>
   </section>
 </template>
 
