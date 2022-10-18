@@ -1,6 +1,6 @@
 <template>
   <section class="mt-4">
-    <TodoListItem />
+    <TodoListItem v-for="todoItem in todoList" :key="todoItem.id" :todo="todoItem" />
     <small>{{ todoLength }} adet Item vardır</small>
     <MySummary />
   </section>
