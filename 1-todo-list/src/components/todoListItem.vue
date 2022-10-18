@@ -4,7 +4,7 @@
       <input v-model="todo.completed" type="checkbox" :id="`todo_${todo.id}_completed`" class="mr-2" />
       <span class="text-lg">{{ todo.title }}</span>
     </label>
-    <button class="bg-indigo-500 px-2 py-1 rounted-md active:bg-indigo-800">Sil</button>
+    <button @click="deleteItem" class="bg-indigo-500 px-2 py-1 rounted-md active:bg-indigo-800">Sil</button>
   </div>
 </template>
 
@@ -12,6 +12,13 @@
 export default {
   props: {
     todo: Object,
+  },
+  setup(props, { emit }) {
+    const deleteItem = () => {
+      emit("delete-event", props.todo);
+    };
+
+    return { deleteItem };
   },
 };
 </script>
