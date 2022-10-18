@@ -1,7 +1,7 @@
 <template>
   <h3>{{ title }}</h3>
   <input type="text" v-model="title" />
-  <button @click="show = !show">Toogle</button>
+  <button @click="toggleIt">Toogle</button>
   <p v-if="show">Lorem ipsum.......................</p>
 </template>
 <script>
@@ -22,10 +22,16 @@ export default {
   setup() {
     //Datadaki reactivity oluşmadan önce çalışmak ve datayı ona göre ayarlamak
     const title = ref("Bu bir setup başlık");
-    const show = ref(false);
+    const show = ref(false);//ref bize bir obje döner
+    //console.log("show", show.value);
+    const toggleIt = () => {
+      show.value = !show.value;//show değerine ulaşabilmek için objenin valuesine ulaşabilmemiz lazım
+    };
+    // function toogleIt(){}
     return {
       title,
       show,
+      toggleIt,
     };
   },
 };
