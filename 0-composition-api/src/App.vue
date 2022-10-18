@@ -4,9 +4,11 @@
   {{ titleLengthMessage }}
   <button @click="toggleIt">Toogle</button>
   <p v-if="show">Lorem ipsum.......................</p>
+  <hr />
+  <button @click="counter++">{{ counter }} {{ oddOrEven }}</button>
 </template>
 <script>
-import { ref, computed } from "vue"; //reactive effect
+import { ref, computed, watch } from "vue"; //reactive effect
 export default {
   // data() {
   //   return {
@@ -40,11 +42,21 @@ export default {
 
     //console.log("titleLengthMessage", titleLengthMessage.value);
 
+    const counter = ref(0);
+
+    const oddOrEven = computed(() => (counter.value % 2 == 0 ? "Çift" : "Tek"));
+
+    //watch(counter,()=>{},{deep:true})
+    watch([counter, oddOrEven], ([newC, newO], [oldC, oldO]) => {
+      console.log(oldO, "=>", newO);
+    });
     return {
       title,
       show,
       toggleIt,
       titleLengthMessage,
+      counter,
+      oddOrEven,
     };
   },
 };
