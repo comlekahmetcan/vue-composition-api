@@ -6,9 +6,12 @@
   <p v-if="show">Lorem ipsum.......................</p>
   <hr />
   <button @click="counter++">{{ counter }} {{ oddOrEven }}</button>
+  <hr />
+  <input type="text" v-model="searchText" />
+  <p v-if="isTyping">Şu an yazıyor.....</p>
 </template>
 <script>
-import { ref, computed, watch } from "vue"; //reactive effect
+import { ref, computed, watch, watchEffect } from "vue"; //reactive effect
 export default {
   // data() {
   //   return {
@@ -42,14 +45,44 @@ export default {
 
     //console.log("titleLengthMessage", titleLengthMessage.value);
 
+    //******************************************************************************************************************
     const counter = ref(0);
-
     const oddOrEven = computed(() => (counter.value % 2 == 0 ? "Çift" : "Tek"));
 
     //watch(counter,()=>{},{deep:true})
     watch([counter, oddOrEven], ([newC, newO], [oldC, oldO]) => {
       console.log(oldO, "=>", newO);
     });
+
+    //******************************************************************************************************************
+
+    const searchText = ref("");
+    const isTyping = ref(false);
+
+    // watch(searchText, () => {
+    //   if (searchText.value.length > 0) {
+    //     isTyping.value = true;
+
+    //     setTimeout(() => {
+    //       isTyping.value = false;
+    //     }, 1500);
+    //   }
+    // });
+
+    watchEffect((onInvalidate) => {
+      //const stop = watchEffect((onInvalidate) => {
+      if (searchText.value.length > 0) {
+        isTyping.value = true;
+
+        const typing = setTimeout(() => {
+          isTyping.value = false;
+          //stop();
+        }, 1500);
+        //asenkron istek atılacağı zaman bu şekilde yapılabilir sürekli istek atmak yerine timeout kullanarak
+        onInvalidate(() => clearTimeout(typing));
+      }
+    });
+
     return {
       title,
       show,
@@ -57,6 +90,8 @@ export default {
       titleLengthMessage,
       counter,
       oddOrEven,
+      searchText,
+      isTyping,
     };
   },
 };
