@@ -4,7 +4,11 @@
   {{ counter }}
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
 const props = defineProps({ counter: Number });
 const result = computed(() => (props.counter % 2 == 0 ? "Çift" : "Tek"));
+const emit = defineEmits(["odd-event"]);//odd-event kullanılmasına gerek yok sadece dökümante edebilmek için kullanılır
+watch(result, (result) => {
+  if (result == "Tek") emit("odd-event", true);
+});
 </script>
