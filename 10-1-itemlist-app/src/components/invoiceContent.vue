@@ -12,7 +12,7 @@
 
     <hr class="bg-gradient-to-r h-[1px] border-none from-gray-700 mt-5" />
     <div class="actionbar text-right my-5">
-      <button class="purple-button">Kaydet</button>
+      <button @click="onSubmit" class="purple-button">Kaydet</button>
     </div>
   </section>
 </template>
@@ -41,9 +41,15 @@ const AddInvoiceItem = () => {
     total_price: 0.0,
   });
 };
+
 const DeleteInvoiceItem = (invoiceItem) => {
   state.items = state.items.filter((i) => i.id != invoiceItem.id);
 };
+
 provide("DeleteInvoiceItem", DeleteInvoiceItem);
 
+const props = defineProps({ saveInvoice: Function });
+const onSubmit = () => {
+  props.saveInvoice({ ...state, created_at: new Date(), id: new Date().getTime() });
+};
 </script>
