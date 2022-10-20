@@ -7,13 +7,7 @@
 </template>
 <script setup>
 import oddOrEven from "./components/oddOrEven.vue";
-import { ref } from "vue";
-const title = ref("Başlık");
-const counter = ref(0);
-const inc = () => {
-  counter.value++;
-};
-const alertMe=(info)=>{
-    console.log(info);
-}
+import Utils from "./composables/Utils.js";
+
+const { title, counter, inc, alertMe } = Utils();
 </script>
