@@ -1,11 +1,11 @@
 <template>
   <section class="bg-gray-900 w-1/3 mx-auto mt-10 p-2 px-5 rounded-md shadow-2xl">
     <!-- FAtura Bilgileri -->
-    <contact-section/>
+    <contact-section :contact="state.contact" />
 
     <div class="mt-5">
       <heading title="Fatura Kalemleri" />
-      <invoice-items />
+      <invoice-items :items="items" />
     </div>
     <!-- Summary -->
     <invoice-summary />
@@ -18,7 +18,18 @@
 </template>
 
 <script setup>
+import { reactive } from "vue";
 import invoiceItems from "./invoiceItems.vue";
 import invoiceSummary from "./invoiceSummary.vue";
 import contactSection from "./contactSection.vue";
+const state = reactive({
+  contact: {
+    contact_name: null,
+    email: null,
+    city: null,
+    country: null,
+    zipcode: null,
+  },
+  items: [],
+});
 </script>
