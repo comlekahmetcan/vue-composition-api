@@ -2,10 +2,10 @@
   <section class="bg-gray-900 w-1/3 mx-auto mt-10 p-2 px-5 rounded-md shadow-2xl">
     <!-- FAtura Bilgileri -->
     <contact-section :contact="state.contact" />
-
+    <!-- {{ state.contact }} -->
     <div class="mt-5">
       <heading title="Fatura Kalemleri" />
-      <invoice-items :items="items" />
+      <invoice-items :items="state.items" />
     </div>
     <!-- Summary -->
     <invoice-summary />
