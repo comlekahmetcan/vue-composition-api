@@ -15,8 +15,11 @@
   </div>
 </template>
 <script setup>
-import { computed, inject } from "vue";
+import { computed, watch, inject } from "vue";
 const props = defineProps({ item: Object });
 const totalPrice = computed(() => props.item.qty * props.item.unit_price);
+watch(totalPrice, (totalPrice) => {
+  props.item.total_price = totalPrice;
+});
 const DeleteInvoiceItem = inject("DeleteInvoiceItem");
 </script>
