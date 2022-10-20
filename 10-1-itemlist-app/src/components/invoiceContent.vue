@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { reactive, provide } from "vue";
+import { reactive, provide, watch } from "vue";
 import invoiceItems from "./invoiceItems.vue";
 import invoiceSummary from "./invoiceSummary.vue";
 import contactSection from "./contactSection.vue";
@@ -48,7 +48,7 @@ const DeleteInvoiceItem = (invoiceItem) => {
 
 provide("DeleteInvoiceItem", DeleteInvoiceItem);
 
-const props = defineProps({ saveInvoice: Function });
+const props = defineProps({ saveInvoice: Function, activeInvoice: [Object, null] }); //gönderdigimiz activeInvoice karşıladık
 const onSubmit = () => {
   props.saveInvoice({ ...state, created_at: new Date(), id: new Date().getTime() });
   (state.contact = {
@@ -60,4 +60,17 @@ const onSubmit = () => {
   }),
     (state.items = []);
 };
+// console.log('props.activeInvoice', props.activeInvoice)
+watch(
+  () => props.activeInvoice,
+  (activeInvoice) => {
+    if (activeInvoice) {
+      state.contact = {
+        ...activeInvoice.contact,
+      };
+      state.items = [...activeInvoice.items];
+    }
+    // console.log("activeInvoice", activeInvoice);
+  }
+);
 </script>
