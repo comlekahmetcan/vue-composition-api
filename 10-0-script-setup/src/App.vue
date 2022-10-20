@@ -6,6 +6,7 @@
   <oddOrEven :counter="counter" @odd-event="alertMe" /><!--ilk gönderme buradan counter için-->
 </template>
 <script setup>
+//! beforeCreate() created() ve data()
 import oddOrEven from "./components/oddOrEven.vue";
 import Utils from "./composables/Utils.js";
 

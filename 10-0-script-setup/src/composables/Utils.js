@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 export default function () {
   const title = ref("Başlık");
   const counter = ref(0);
@@ -9,5 +9,8 @@ export default function () {
     console.log(info);
   };
 
+  onMounted(()=>{
+    console.log("Mounted esnasında yapılabilecekler burada");
+  })
   return { title, counter, inc, alertMe };
 }
