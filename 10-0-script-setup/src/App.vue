@@ -13,7 +13,7 @@
   {{ state.personal }}
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 //! ---------beforeCreate() created() ve data()
 import oddOrEven from "./components/oddOrEven.vue";
 import Utils from "./composables/Utils.js";
@@ -31,5 +31,20 @@ const state = reactive({
 });
 // const itemList = ref([]);
 
+//! En önemli bir nokta state watching - Bir klonlama işlemidir.
+//! object --- JSON.stringify  (Objeyi stringe dönüştürme)
+//! string --- object          (String objeye dönüştürünce eski adresinden artık eser kalmıyor deepclone işlemi)
+watch(
+  () => JSON.parse(JSON.stringify(state.personal)),
+  (newPersonal, oldPersonal) => {
+    console.log(oldPersonal);
+    console.log(newPersonal);
+  }
+);
+
+// watch(state.personal,(newPersonal,oldPersonal)=>{
+//   console.log(oldPersonal);
+//   console.log(newPersonal);
+// })
 console.log("state", state.personal.name);
 </script>
