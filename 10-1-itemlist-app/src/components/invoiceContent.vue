@@ -51,5 +51,13 @@ provide("DeleteInvoiceItem", DeleteInvoiceItem);
 const props = defineProps({ saveInvoice: Function });
 const onSubmit = () => {
   props.saveInvoice({ ...state, created_at: new Date(), id: new Date().getTime() });
+  (state.contact = {
+    contact_name: null,
+    email: null,
+    city: null,
+    country: null,
+    zipcode: null,
+  }),
+    (state.items = []);
 };
 </script>

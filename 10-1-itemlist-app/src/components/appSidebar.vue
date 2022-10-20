@@ -1,8 +1,8 @@
 <template>
   <aside class="bg-gray-700 w-[300px] h-screen">
     <h3 class="text-2xl font-bold mt-2 p-2">Fatura Listesi</h3>
-    <div v-for="(invoice, i) in invoices" :key="invoice.id" class="odd:bg-gray-600 flex justify-between items-center p-2">
-      <span>#{{ i }}</span>
+    <div v-for="invoice in invoices" :key="invoice.id" class="odd:bg-gray-600 flex justify-between items-center p-2">
+      <span>#{{ invoice.id.toString().slice(0, 4) }}</span>
       <span>{{ invoice.contact.contact_name }}</span>
       <!-- componente ayırarak computed ile yapılabilir -->
       <span>
