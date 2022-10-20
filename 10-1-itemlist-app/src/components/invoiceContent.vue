@@ -1,9 +1,8 @@
 <template>
   <section class="bg-gray-900 w-1/3 mx-auto mt-10 p-2 px-5 rounded-md shadow-2xl">
     <!-- FAtura Bilgileri -->
-    <h3 class="text-gray-400 text-xl">Fatura Bilgileri</h3>
-    <hr class="bg-gradient-to-r h-[1px] border-none from-gray-700 mb-2" />
     <div>
+      <heading title="Fatura Bilgileri" />
       <label for="client_name" class="flex flex-col text-gray-400 mb-2">
         <small class="mb-1">Müşteri Adı</small>
         <input autocomplete="off" id="client_name" class="input" type="text" />
@@ -30,8 +29,7 @@
     </div>
 
     <div class="mt-5">
-      <h3 class="text-gray-400 text-xl">Fatura Kalemleri</h3>
-      <hr class="bg-gradient-to-r h-[1px] border-none from-gray-700 mb-2" />
+      <heading title="Fatura Kalemleri" />
       <div class="table-header flex">
         <span class="text-left p-1 w-[200px] mr-2">Ürün Adı</span>
         <span class="text-left p-1 w-[50px] mr-2">Adet</span>
