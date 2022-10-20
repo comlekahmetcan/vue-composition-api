@@ -1,9 +1,10 @@
 <template>
   <aside class="bg-gray-700 w-[300px] h-screen">
     <h3 class="text-2xl font-bold mt-2 p-2">Fatura Listesi</h3>
-    <div v-for="i in 5" :key="i" class="odd:bg-gray-600 flex justify-between items-center p-2">
-      <span>#45fg4</span>
-      <span>Kablosuzkedi</span>
+    <div v-for="(invoice, i) in invoices" :key="invoice.id" class="odd:bg-gray-600 flex justify-between items-center p-2">
+      <span>#{{ i }}</span>
+      <span>{{ invoice.contact.contact_name }}</span>
+      <!-- componente ayırarak computed ile yapılabilir -->
       <span>
         <button class="danger-button mr-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" height="16" viewBox="0 0 24 24" width="16">
@@ -23,3 +24,6 @@
     </div>
   </aside>
 </template>
+<script setup>
+defineProps({ invoices: Array });
+</script>
