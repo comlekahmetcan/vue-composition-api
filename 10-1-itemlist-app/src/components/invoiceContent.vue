@@ -5,7 +5,7 @@
     <!-- {{ state.contact }} -->
     <div class="mt-5">
       <heading title="Fatura Kalemleri" />
-      <invoice-items :items="state.items" />
+      <invoice-items :items="state.items" :AddInvoiceItem="AddInvoiceItem" />
     </div>
     <!-- Summary -->
     <invoice-summary />
@@ -32,4 +32,12 @@ const state = reactive({
   },
   items: [],
 });
+const AddInvoiceItem = () => {
+  state.items.push({
+    name: null,
+    qty: null,
+    unit_price: 0.0,
+    total_price: 0.0,
+  });
+};
 </script>
