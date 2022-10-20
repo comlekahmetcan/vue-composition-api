@@ -1,9 +1,9 @@
 <template>
   <div class="table-body-item group">
-    <input autocomplete="off" type="text" class="input w-[200px] mr-2" />
-    <input autocomplete="off" type="text" class="input w-[50px] mr-2" />
-    <input autocomplete="off" type="text" class="input w-[100px] mr-2" />
-    <span class="p-1 text-center text-gray-400">$1500</span>
+    <input v-model="item.name" autocomplete="off" type="text" class="input w-[200px] mr-2" />
+    <input v-model="item.qty" autocomplete="off" type="text" class="input w-[50px] mr-2" />
+    <input v-model="item.unit_price" autocomplete="off" type="text" class="input w-[100px] mr-2" />
+    <span class="p-1 text-center text-gray-400">${{ totalPrice }}</span>
     <div class="text-right flex-grow">
       <button class="delete-button">
         <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" height="24" viewBox="0 0 24 24" width="24">
@@ -14,3 +14,8 @@
     </div>
   </div>
 </template>
+<script setup>
+import { computed } from "vue";
+const props = defineProps({ item: Object });
+const totalPrice = computed(() => props.item.qty * props.item.unit_price);
+</script>
