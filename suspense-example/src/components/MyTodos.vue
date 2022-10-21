@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 const todoList = ref([]);
 //const isLoad = ref(false);
+//aaa;// hata görebilmek için
 fetch("https://jsonplaceholder.typicode.com/todos")
   .then((response) => response.json())
   .then((json) => {
