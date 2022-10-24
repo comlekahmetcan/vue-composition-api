@@ -40,11 +40,6 @@
   "user_likes": [
     {
       "userId": 1,
-      "bookmarkId": 1,
-      "id": 1
-    },
-    {
-      "userId": 1,
       "bookmarkId": 6,
       "id": 4
     },
@@ -54,9 +49,24 @@
       "id": 5
     },
     {
-      "userId": 1,
-      "bookmarkId": 9,
-      "id": 6
+      "userId": 6,
+      "bookmarkId": 7,
+      "id": 8
+    },
+    {
+      "userId": 6,
+      "bookmarkId": 10,
+      "id": 12
+    },
+    {
+      "userId": 6,
+      "bookmarkId": 10,
+      "id": 13
+    },
+    {
+      "userId": 6,
+      "bookmarkId": 5,
+      "id": 14
     }
   ],
   "user_bookmarks": [
@@ -71,8 +81,8 @@
       "id": 5
     },
     {
-      "userId": 1,
-      "bookmarkId": 9,
+      "userId": 6,
+      "bookmarkId": 8,
       "id": 6
     }
   ],

@@ -1,13 +1,15 @@
 <template>
   <div class="bg-white flex flex-col gap-x-3 rounded-md shadow-sm">
     <div class="p-3">
-      <a :href="item.url" target="_blank" class="hover:text-black font-bold text-l mb-1 text-gray-600 text-center">{{ item.title || "-" }}</a>
+      <a :href="props.item.url" target="_blank" class="hover:text-black font-bold text-l mb-1 text-gray-600 text-center">{{
+        props.item.title || "-"
+      }}</a>
       <div class="flex items-center justify-center mt-2 gap-x-1">
         <button
           @click="likeItem"
           class="like-btn group"
           :class="{
-            'like-item-active': alreadyLiked
+            'like-item-active': alreadyLiked,
           }"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="fill-current group-hover:text-white" height="24" viewBox="0 0 24 24" width="24">
@@ -21,10 +23,17 @@
           @click="bookmarkItem"
           class="bookmark-btn group"
           :class="{
-            'bookmark-item-active': alreadyBookmarked
+            'bookmark-item-active': alreadyBookmarked,
           }"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="fill-current group-hover:text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24" width="24" height="24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="fill-current group-hover:text-white"
+            enable-background="new 0 0 24 24"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+          >
             <rect fill="none" />
             <path d="M17,11v6.97l-5-2.14l-5,2.14V5h6V3H7C5.9,3,5,3.9,5,5v16l7-3l7,3V11H17z M21,7h-2v2h-2V7h-2V5h2V3h2v2h2V7z" />
           </svg>
@@ -33,10 +42,12 @@
           <button class="details-btn !-z-[1] group">
             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current group-hover:text-gray-700" height="24" viewBox="0 0 24 24" width="24">
               <path d="M0 0h24v24H0V0z" fill="none" />
-              <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17l-.59.59-.58.58V4h16v12zM6 12h2v2H6zm0-3h2v2H6zm0-3h2v2H6zm4 6h5v2h-5zm0-3h8v2h-8zm0-3h8v2h-8z" />
+              <path
+                d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17l-.59.59-.58.58V4h16v12zM6 12h2v2H6zm0-3h2v2H6zm0-3h2v2H6zm4 6h5v2h-5zm0-3h8v2h-8zm0-3h8v2h-8z"
+              />
             </svg>
             <p class="details-container">
-              {{ item.description }}
+              {{ props.item.description }}
             </p>
           </button>
         </div>
@@ -49,99 +60,67 @@
     <div class="bg-red-200 p-1 mt-auto text-red-900 text-center text-sm">{{ categoryName }}</div>
   </div>
 </template>
-<script>
-import { mapGetters } from "vuex";
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: true,
-      default: () => {}
-    }
+
+<script setup>
+import { defineProps, inject, computed } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
+const appAxios = inject("appAxios");
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+    default: () => {},
   },
-  methods: {
-    likeItem() {
-      this.$appAxios({
-        url: this.alreadyLiked ? `/user_likes/${this.likedItem.id}` : "/user_likes",
-        method: this.alreadyLiked ? "DELETE" : "POST",
-        data: {
-          userId: this._getCurrentUser.id,
-          bookmarkId: this.item.id
-        }
-      }).then(user_like_response => {
-        let bookmarks = [...this._userLikes];
-        if (this.alreadyLiked) {
-          bookmarks = bookmarks.filter(b => b.id !== this.likedItem.id);
-        } else {
-          bookmarks = [...bookmarks, user_like_response.data];
-        }
-        this.$store.commit("setLikes", bookmarks);
-      });
+});
+
+const likeItem = () => {
+  appAxios({
+    url: alreadyLiked.value ? `/user_likes/${likedItem.value.id}` : "/user_likes",
+    method: alreadyLiked.value ? "DELETE" : "POST",
+    data: {
+      userId: _getCurrentUser.value.id,
+      bookmarkId: props.item.id,
     },
-    _likeItem() {
-      let likes = [...this._userLikes];
-      if (!this.alreadyLiked) {
-        likes = [...likes, this.item.id];
-      } else {
-        likes = likes.filter(l => l !== this.item.id);
-      }
-      this.$appAxios.patch(`/users/${this._getCurrentUser.id}`, { likes }).then(() => {
-        this.$store.commit("setLikes", likes);
-      });
-    },
-    bookmarkItem() {
-      this.$appAxios({
-        url: this.alreadyBookmarked ? `/user_bookmarks/${this.bookmarkedItem.id}` : "/user_bookmarks",
-        method: this.alreadyBookmarked ? "DELETE" : "POST",
-        data: {
-          userId: this._getCurrentUser.id,
-          bookmarkId: this.item.id
-        }
-      }).then(user_bookmark_response => {
-        let bookmarks = [...this._userBookmarks];
-        if (this.alreadyBookmarked) {
-          bookmarks = bookmarks.filter(b => b.id !== this.bookmarkedItem.id);
-        } else {
-          bookmarks = [...bookmarks, user_bookmark_response.data];
-        }
-        this.$store.commit("setBookmarks", bookmarks);
-      });
-    },
-    _bookmarkItem() {
-      let bookmarks = [...this._userBookmarks];
-      if (!this.alreadyBookmarked) {
-        bookmarks = [...bookmarks, this.item.id];
-      } else {
-        bookmarks = bookmarks.filter(b => b !== this.item.id);
-      }
-      this.$appAxios.patch(`/users/${this._getCurrentUser.id}`, { bookmarks }).then(() => {
-        this.$store.commit("setBookmarks", bookmarks);
-      });
+  }).then((user_like_response) => {
+    let bookmarks = [..._userLikes.value];
+    if (alreadyLiked.value) {
+      bookmarks = bookmarks.filter((b) => b.id !== likedItem.value.id);
+    } else {
+      bookmarks = [...bookmarks, user_like_response.data];
     }
-  },
-  computed: {
-    categoryName() {
-      return this.item?.category?.name || "-";
-    },
-    userName() {
-      return this.item?.user?.fullname || "-";
-    },
-    // _alreadyLiked() {
-    //   return this._userLikes?.indexOf(this.item.id) > -1;
-    // },
-    alreadyLiked() {
-      return Boolean(this.likedItem);
-    },
-    alreadyBookmarked() {
-      return Boolean(this.bookmarkedItem);
-    },
-    bookmarkedItem() {
-      return this._userBookmarks?.find(b => b.bookmarkId === this.item.id);
-    },
-    likedItem() {
-      return this._userLikes?.find(b => b.bookmarkId === this.item.id);
-    },
-    ...mapGetters(["_getCurrentUser", "_userLikes", "_userBookmarks"])
-  }
+    store.commit("setLikes", bookmarks);
+  });
 };
+
+const bookmarkItem = () => {
+  appAxios({
+    url: alreadyBookmarked.value ? `/user_bookmarks/${bookmarkedItem.value.id}` : "/user_bookmarks",
+    method: alreadyBookmarked.value ? "DELETE" : "POST",
+    data: {
+      userId: _getCurrentUser.value.id,
+      bookmarkId: props.item.id,
+    },
+  }).then((user_bookmark_response) => {
+    let bookmarks = [..._userBookmarks.value];
+    if (alreadyBookmarked.value) {
+      bookmarks = bookmarks.filter((b) => b.id !== bookmarkedItem.value.id);
+    } else {
+      bookmarks = [...bookmarks, user_bookmark_response.data];
+    }
+    store.commit("setBookmarks", bookmarks);
+  });
+};
+
+const categoryName = computed(() => props.item?.categoryName?.name || "-");
+const userName = computed(() => props.item?.user?.fullname || "-");
+const alreadyLiked = computed(() => Boolean(likedItem.value));
+const alreadyBookmarked = computed(() => Boolean(bookmarkedItem.value));
+const bookmarkedItem = computed(() => _userBookmarks.value?.find((b) => b.bookmarkId === props.item.id));
+const likedItem = computed(() => _userLikes.value?.find((b) => b.bookmarkId === props.item.id));
+
+const _getCurrentUser = computed(() => store.getters._getCurrentUser);
+const _userLikes = computed(() => store.getters._userLikes);
+const _userBookmarks = computed(() => store.getters._userBookmarks);
 </script>
+
