@@ -7,35 +7,29 @@
     <button class="default-button" @click="onSave">Kayıt ol</button>
     <span class="text-center mt-3 text-sm">
       Zaten Üyeyim,
-      <router-link :to="{ name: 'LoginPage' }" class="text-red-900 hover:text-black">
-        Giriş yap!
-      </router-link>
+      <router-link :to="{ name: 'LoginPage' }" class="text-red-900 hover:text-black"> Giriş yap! </router-link>
     </span>
   </div>
 </template>
-<script>
+
+<script setup>
 import CryptoJS from "crypto-js";
-export default {
-  data() {
-    return {
-      userData: {
-        username: null,
-        fullname: null,
-        password: null
-      }
-    };
-  },
-  methods: {
-    onSave() {
-      const password = CryptoJS.HmacSHA1(this.userData.password, this.$store.getters._saltKey).toString();
-      this.$appAxios.post("/users", { ...this.userData, password }).then(registered_user_response => {
-        console.log("registered_user_response :>> ", registered_user_response);
-        this.$router.push({ name: "HomePage" });
-      });
-      // const decryptedPassword = CryptoJS.AES.decrypt(cryptedPassword, key).toString(CryptoJS.enc.Utf8);
-      // console.log("decryptedPassword :>> ", decryptedPassword);
-      // console.log(this.userData);
-    }
-  }
+import { ref, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const appAxios = inject("appAxios");
+const store = useStore();
+const router = useRouter();
+const userData = ref({
+  username: null,
+  fullname: null,
+  password: null,
+});
+
+const onSave = () => {
+  const password = CryptoJS.HmacSHA1(userData.value.password, store.getters._saltKey).toString();
+  appAxios.post("/users", { ...userData.value, password }).then(() => {
+    router.push({ name: "HomePage" });
+  });
 };
 </script>
