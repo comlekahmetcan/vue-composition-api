@@ -1,16 +1,22 @@
 <template>
   <div class="header-container">
     <nav class="flex w-full px-2">
+      <!-- {{ $log(_isAuthenticated) }} kontrol etmek için kullanılabilir -->
       <div class="flex text-xl">
         <svg xmlns="http://www.w3.org/2000/svg" class="fill-current mr-2" height="36" viewBox="0 0 24 24" width="36">
           <path d="M0 0h24v24H0V0z" fill="none" />
-          <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 2v5l-1-.75L15 9V4h2zm3 12H8V4h5v9l3-2.25L19 13V4h1v12z" />
+          <path
+            d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 2v5l-1-.75L15 9V4h2zm3 12H8V4h5v9l3-2.25L19 13V4h1v12z"
+          />
         </svg>
         BookLike
       </div>
 
       <div v-if="_isAuthenticated" class="ml-auto flex items-center">
-        <router-link :to="{ name: 'NewBookmarkPage' }" class="flex bg-gray-700 hover:bg-black text-white px-3 py-1 rounded-sm text-sm items-center mr-2">
+        <router-link
+          :to="{ name: 'NewBookmarkPage' }"
+          class="flex bg-gray-700 hover:bg-black text-white px-3 py-1 rounded-sm text-sm items-center mr-2"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" height="16" viewBox="0 0 24 24" width="16">
             <path d="M0 0h24v24H0V0z" fill="none" />
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
@@ -18,10 +24,25 @@
           New
         </router-link>
         <div class="relative group">
-          <button class="w-8 h-8 flex items-center justify-center rounded-md transition-colors duration-500 hover:bg-gray-200 group-focus-within:bg-gray-300">
+          <button
+            class="
+              w-8
+              h-8
+              flex
+              items-center
+              justify-center
+              rounded-md
+              transition-colors
+              duration-500
+              hover:bg-gray-200
+              group-focus-within:bg-gray-300
+            "
+          >
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" class="fill-current" width="24">
               <path d="M0 0h24v24H0V0z" fill="none" />
-              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
             </svg>
           </button>
           <nav class="bg-white !z-10 rounded-md shadow-md p-2 w-56 flex flex-col absolute group-focus-within:visible top-full right-0 invisible">
@@ -38,7 +59,9 @@
             <router-link class="mb-2 menu-item" :to="{ name: 'Favorites' }">
               <svg xmlns="http://www.w3.org/2000/svg" class="fill-current mr-1" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M15 7v12.97l-4.21-1.81-.79-.34-.79.34L5 19.97V7h10m4-6H8.99C7.89 1 7 1.9 7 3h10c1.1 0 2 .9 2 2v13l2 1V3c0-1.1-.9-2-2-2zm-4 4H5c-1.1 0-2 .9-2 2v16l7-3 7 3V7c0-1.1-.9-2-2-2z" />
+                <path
+                  d="M15 7v12.97l-4.21-1.81-.79-.34-.79.34L5 19.97V7h10m4-6H8.99C7.89 1 7 1.9 7 3h10c1.1 0 2 .9 2 2v13l2 1V3c0-1.1-.9-2-2-2zm-4 4H5c-1.1 0-2 .9-2 2v16l7-3 7 3V7c0-1.1-.9-2-2-2z"
+                />
               </svg>
               Favorites
             </router-link>
@@ -53,7 +76,14 @@
               Likes
             </router-link>
             <a @click="onLogout" href="#" class="menu-item">
-              <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" class="fill-current mr-1" height="24" viewBox="0 0 24 24" width="24">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                enable-background="new 0 0 24 24"
+                class="fill-current mr-1"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
                 <g><path d="M0,0h24v24H0V0z" fill="none" /></g>
                 <g>
                   <path d="M17,8l-1.41,1.41L17.17,11H9v2h8.17l-1.58,1.58L17,16l4-4L17,8z M5,5h7V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h7v-2H5V5z" />
@@ -68,17 +98,18 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-export default {
-  computed: {
-    ...mapGetters(["_isAuthenticated"])
-  },
-  methods: {
-    onLogout() {
-      this.$store.commit("logoutUser");
-      this.$router.push({ name: "LoginPage" });
-    }
-  }
+<script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const store = useStore();
+const router = useRouter();
+
+const onLogout = () => {
+  store.commit("logoutUser");
+  router.push({ name: "LoginPage" });
 };
+
+const _isAuthenticated = computed(() => store.getters._isAuthenticated);
 </script>
+
