@@ -6,39 +6,37 @@
     <button @click="onSubmit" class="default-button">Giriş yap</button>
     <span class="text-center mt-3 text-sm">
       Üye değilim,
-      <router-link :to="{ name: 'RegisterPage' }" class="text-red-900 hover:text-black">
-        Üye olmak istiyorum!
-      </router-link>
+      <router-link :to="{ name: 'RegisterPage' }" class="text-red-900 hover:text-black"> Üye olmak istiyorum! </router-link>
     </span>
   </div>
 </template>
-<script>
+<script setup>
 import CryptoJS from "crypto-js";
-export default {
-  data() {
-    return {
-      userData: {
-        username: null,
-        password: null
+import { ref, inject } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const appAxios = inject("appAxios");
+const store = useStore();
+const router = useRouter();
+const userData = ref({
+  username: null,
+  password: null,
+});
+
+const onSubmit = () => {
+  const password = CryptoJS.HmacSHA1(userData.value.password, store.getters._saltKey).toString();
+  appAxios
+    .get(`/users?username=${userData.value.username}&password=${password}`)
+    .then((login_response) => {
+      if (login_response?.data?.length > 0) {
+        store.commit("setUser", login_response?.data[0]);
+        router.push({ name: "HomePage" });
+      } else {
+        alert("Böyle bir kullanıcı bulunamadı...");
       }
-    };
-  },
-  methods: {
-    onSubmit() {
-      const password = CryptoJS.HmacSHA1(this.userData.password, this.$store.getters._saltKey).toString();
-      this.$appAxios
-        .get(`/users?username=${this.userData.username}&password=${password}`)
-        .then(login_response => {
-          if (login_response?.data?.length > 0) {
-            this.$store.commit("setUser", login_response?.data[0]);
-            this.$router.push({ name: "HomePage" });
-          } else {
-            alert("Böyle bir kullanıcı bulunamadı...");
-          }
-        })
-        .catch(e => console.log(e));
-      // .finally(() => this.loader = false)
-    }
-  }
+    })
+    .catch((e) => console.log(e));
+  // .finally(() => this.loader = false)
 };
 </script>
+
