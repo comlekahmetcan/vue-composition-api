@@ -1,13 +1,13 @@
 <template>
   <AppHeader />
   <div class="flex flex-row">
-    <!-- <Sidebar @category-changed="updateBookmarkList" /> -->
+    <Sidebar @category-changed="updateBookmarkList" />
     <app-bookmark-list v-if="bookmarkList.length > 0" :items="bookmarkList" />
     <div v-else>Bookmark bulunmamaktadır..</div>
   </div>
 </template>
 <script setup>
-// import Sidebar from "@/components/Home/Sidebar";
+import Sidebar from "@/components/Home/Sidebar";
 import { ref, onMounted, inject } from "vue";
 import { useStore } from "vuex";
 const appAxios = inject("appAxios");
@@ -34,12 +34,12 @@ const fetchData = () => {
     store.commit("setLikes", user_likes_response?.data);
   });
 };
-// const updateBookmarkList = (categoryId) => {
-//   const url = categoryId ? `/bookmarks?_expand=category&_expand=user&categoryId=${categoryId}` : `/bookmarks?_expand=category&_expand=user`;
-//   appAxios.get(url).then((bookmark_list_response) => {
-//     bookmarkList.value = bookmark_list_response?.data || [];
-//   });
-// };
+const updateBookmarkList = (categoryId) => {
+  const url = categoryId ? `/bookmarks?_expand=category&_expand=user&categoryId=${categoryId}` : `/bookmarks?_expand=category&_expand=user`;
+  appAxios.get(url).then((bookmark_list_response) => {
+    bookmarkList.value = bookmark_list_response?.data || [];
+  });
+};
 
 fetchData();
 </script>
