@@ -73,7 +73,6 @@ const props = defineProps({
     default: () => {},
   },
 });
-
 const likeItem = () => {
   appAxios({
     url: alreadyLiked.value ? `/user_likes/${likedItem.value.id}` : "/user_likes",
@@ -92,7 +91,6 @@ const likeItem = () => {
     store.commit("setLikes", bookmarks);
   });
 };
-
 const bookmarkItem = () => {
   appAxios({
     url: alreadyBookmarked.value ? `/user_bookmarks/${bookmarkedItem.value.id}` : "/user_bookmarks",
@@ -111,14 +109,13 @@ const bookmarkItem = () => {
     store.commit("setBookmarks", bookmarks);
   });
 };
-
-const categoryName = computed(() => props.item?.categoryName?.name || "-");
+const categoryName = computed(() => props.item?.category?.name || "-");
 const userName = computed(() => props.item?.user?.fullname || "-");
 const alreadyLiked = computed(() => Boolean(likedItem.value));
 const alreadyBookmarked = computed(() => Boolean(bookmarkedItem.value));
+
 const bookmarkedItem = computed(() => _userBookmarks.value?.find((b) => b.bookmarkId === props.item.id));
 const likedItem = computed(() => _userLikes.value?.find((b) => b.bookmarkId === props.item.id));
-
 const _getCurrentUser = computed(() => store.getters._getCurrentUser);
 const _userLikes = computed(() => store.getters._userLikes);
 const _userBookmarks = computed(() => store.getters._userBookmarks);
